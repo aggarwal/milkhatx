@@ -1,11 +1,13 @@
 package com.github.paleblue.persistence.milkha;
 
 
+import java.io.File;
 import java.util.UUID;
 
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.amazonaws.services.dynamodbv2.local.embedded.DynamoDBEmbedded;
 import com.github.paleblue.persistence.milkha.mapper.HashOnlyMapper;
 import com.github.paleblue.persistence.milkha.mapper.TransactionLogItemMapper;
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest;
@@ -20,8 +22,9 @@ public abstract class DynamoDBLocalAbstractTest {
     protected final AmazonDynamoDB ddbClient;
 
     protected DynamoDBLocalAbstractTest() {
-        ddbClient = new AmazonDynamoDBClient(new BasicAWSCredentials("test", ""));
-        ddbClient.setEndpoint(System.getProperty("dynamodb-local.endpoint"));
+        System.out.println("PROPERTY" + System.getProperty("sqlite4java.library.path"));
+        // System.setProperty("sqlite4java.library.path", System.getProperty("user.dir")+"/lib/sqlite4java-392/");
+        ddbClient = DynamoDBEmbedded.create(new File("/Users/shitanshu/ddblocal.sqlite")).amazonDynamoDB();
     }
 
     @Before
@@ -32,6 +35,7 @@ public abstract class DynamoDBLocalAbstractTest {
     @After
     public void deleteTables() {
         deleteTable(new TransactionLogItemMapper());
+        ddbClient.shutdown();
     }
 
     protected void createTable(HashOnlyMapper mapper) {
