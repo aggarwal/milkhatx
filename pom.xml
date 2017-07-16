@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <sqlite4path>${com.almworks.sqlite4java:sqlite4java:jar}</sqlite4path>
     </properties>
 
     <repositories>
@@ -89,8 +88,8 @@
                 <configuration>
                     <systemProperties>
                         <property>
-                            <name>sqlite4java.library.path</name>
-                            <value>/Users/shitanshu/.m2/repository/com/almworks/sqlite4java/libsqlite4java-osx/1.0.392/</value>
+                            <name>sqlite4java.jar.path</name>
+                            <value>${com.almworks.sqlite4java:sqlite4java:jar}</value>
                         </property>
                     </systemProperties>
                 </configuration>
